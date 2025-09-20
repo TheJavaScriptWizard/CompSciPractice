@@ -42,7 +42,7 @@ class Graph {
             return;
         }else{
             this.visitedNodes[this.nodes.indexOf(currentNode)] = true;
-
+            console.log(currentNode);
             var neighbors = this.AdjList.get(currentNode);
             for (let i = 0; i < neighbors.length; i++) {
                 this.DFS(neighbors[i]);
