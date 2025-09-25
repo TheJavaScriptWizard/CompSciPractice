@@ -1,0 +1,8 @@
+var neighbors = ['B','D','C']
+
+I need to find all lists inside edgeLists that contain currentNode
+Now I need to add the opposite letter to the Neighbors list
+
+this.edgeList[0][1]--second [] can only be 0 or 1
+
+
