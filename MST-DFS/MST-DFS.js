@@ -30,16 +30,53 @@ class Graph {
             console.log(i + " -> " + conc);
         }
     }
-      Traversal(currentNode, acc) {
-        if (this.visitedNodes[this.nodes.indexOf(currentNode)]) {
-            return;
+    Traversal() {
+        var graph = this.edges;
+        var unvisted = this.nodes;
+        var visted = [];
+        var totalWeight = 0;
+        graph.sort((a,b) => a[2] - b[2]);        
+        //console.log(graph);        
+
+        while (unvisted.length != 0) {
+            if (visted.length <= 0) {
+                totalWeight += graph[0][2];
+                //console.log(unvisted)
+                unvisted.splice(unvisted.indexOf(graph[0][0]), 1);
+                unvisted.splice(unvisted.indexOf(graph[0][1]), 1);
+          //      console.log(unvisted);
+                visted.push(graph[0][0]);
+                console.log(graph[0][0]);
+                visted.push(graph[0][1]);
+                console.log(graph[0][1]);
+                graph.splice(0,1);
+            //    console.log("I have removed the firt edge!!!!!");
+            }
+           // console.log(graph);
+            var workingArr = [];
+           // console.log(visted);
+           // console.log(unvisted);
+            for (var i = 0; i < graph.length; i++) {
+                if (visted.includes(graph[i][0]) && unvisted.includes(graph[i][1]) || visted.includes(graph[i][1]) && unvisted.includes(graph[i][0])) {
+                    workingArr.push(graph[i]);
+                }
+            }            
+          //  console.log(workingArr);
+
+            if (visted.includes(workingArr[0][0]) && unvisted.includes(graph[0][1])) {
+                visted.push(workingArr[0][1]);
+                console.log(workingArr[0][1]);
+                unvisted.splice(unvisted.indexOf(workingArr[0][1]), 1);
+            }else{
+                visted.push(workingArr[0][0]);
+                console.log(workingArr[0][0]);
+                unvisted.splice(unvisted.indexOf(workingArr[0][0]), 1);
+            }
+            
+            totalWeight += workingArr[0][2];
+            graph.splice(graph.indexOf(workingArr[0]), 1);
         }
-        this.visitedNodes[this.nodes.indexOf(currentNode)] = true;
-        console.log(currentNode);
-        var neighbors = this.AdjList.get(currentNode);
-        for (let i = 0; i < neighbors.length; i++) {
-            this.Traversal(neighbors[i], this.edges.find(o => (o[0] = neighbors[i] && o[1] = currentNode) || (o[1] = neighbors[i] && o[0] = currentNode)))[0][2];
-        }  
+        console.log("The total weight for the minimum spanning tree is: " + totalWeight)
     }    
 }
 
@@ -71,8 +108,7 @@ for (var i = 0;i < nodes.length;i++) {
 
 // adding edges to g
 for (var i = 0; i < edges.length; i++) {
-    console.log(edges[i][0], edges[i][1]);
     g.addEdge(edges[i][0], edges[i][1]);
 }
 
-g.DFS('A');
+g.Traversal();
